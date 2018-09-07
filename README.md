@@ -6,7 +6,7 @@ Docker for PHP7.2 With Swoole
 ### Usage
 
 ```
-docker run -d --name=DockerAppName -v /workdir:/workdir -p 9501:9501 php /workdir/app_server.php start
+docker run  --name=swooleRun -it --rm -v E:\SourceCode\TestCode\PHP\swoole:/opt/ -p 9501:9501 shipfi/docker-php72-swoole php /opt/server.php start
 ```
 
 * Install PHP Extensions

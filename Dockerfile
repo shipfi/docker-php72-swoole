@@ -9,11 +9,11 @@ RUN apt-get update && \
                 openssl libssh-dev \
                 libnghttp2-dev \
                 libpng-dev \
-                libhiredis-dev 
+                libhiredis-dev \
+                libghc-bzlib-dev
 
-
-# install php pdo_mysql opcache ....
-RUN docker-php-ext-install iconv sockets gd pdo_mysql mysqli iconv mbstring json opcache 
+# install php pdo_mysql opcache bz2, bcmath, zip....
+RUN docker-php-ext-install bz2 bcmath zip iconv sockets gd pdo_mysql mysqli iconv mbstring json opcache 
 # RUN docker-php-ext-configure gd 
 # RUN docker-php-ext-install gd mcrypt
 # RUN docker-php-ext-install pdo_mysql mysqli iconv mbstring json mcrypt opcache 
@@ -60,13 +60,12 @@ RUN echo "log_errors = On" >> /usr/local/etc/php/conf.d/log.ini \
 # RUN echo "" >> /usr/local/php/conf.d/additional.ini
 # RUN echo "" >> /etc/apache2/conf-enabled/additional.conf
 
-# add bz2, bcmath, zip
-RUN apt-get install -y  libghc-bzlib-dev
-RUN docker-php-ext-install bz2 bcmath zip
-
 # set system timezone & php timezone
 # @TODO
 
 RUN wget https://install.phpcomposer.com/composer.phar | php 
 RUN mv composer.phar /usr/local/bin/composer
 RUN chmod a+x /usr/local/bin/composer && composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
+# clean files
+RUN rm -rf /tmp && rm -rf /root/swoole*
